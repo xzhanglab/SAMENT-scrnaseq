@@ -96,7 +96,7 @@ def update_plot(keywords=[], logic='AND', width='100%', height=800, interactive=
                                      hoverinfo='text', name=f"{', '.join(keywords)}" if showlegend else None, showlegend=showlegend))
 
     # Set layout
-    fig.update_layout(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(255,255,255,1)', title='CD4 T cell: LysM vs ctrl',
+    fig.update_layout(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(255,255,255,1)', title='CD8 T cell: LysM vs ctrl',
                       xaxis_title='GSVA Score', yaxis_title='-log10(adj.P.Val)', title_font_size=18, width=width, height=height,
                       legend_title_text='Pathway Categories', autosize=True)
     
