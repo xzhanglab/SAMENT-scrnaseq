@@ -2,6 +2,7 @@
 # coding: utf-8
 
 # In[3]:
+
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -46,9 +47,9 @@ def get_category(row, keywords=[], logic='AND'):
         if any(keyword in pathway_name for keyword in keywords):
             return 'keyword_match'
     
-    if row['GSVA_score'] > 0.5 and row['-log10(adj.P.Val)'] > -np.log10(0.05):
+    if row['GSVA_score'] > 0.2 and row['-log10(adj.P.Val)'] > 1:
         return 'upregulated'
-    elif row['GSVA_score'] < -0.5 and row['-log10(adj.P.Val)'] > -np.log10(0.05):
+    elif row['GSVA_score'] < -0.2 and row['-log10(adj.P.Val)'] > 1:
         return 'downregulated'
     else:
         return 'non-significant'
@@ -95,7 +96,7 @@ def update_plot(keywords=[], logic='AND', width='100%', height=800, interactive=
                                      hoverinfo='text', name=f"{', '.join(keywords)}" if showlegend else None, showlegend=showlegend))
 
     # Set layout
-    fig.update_layout(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(255,255,255,1)', title='Macrophage: Biotin Positive vs Negative',
+    fig.update_layout(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(255,255,255,1)', title='CD4 T cell: LysM vs ctrl',
                       xaxis_title='GSVA Score', yaxis_title='-log10(adj.P.Val)', title_font_size=18, width=width, height=height,
                       legend_title_text='Pathway Categories', autosize=True)
     
