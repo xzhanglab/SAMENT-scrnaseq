@@ -109,12 +109,12 @@ def update_plot(keywords=[], exclude_keywords=[], logic='AND', width='100%', hei
                                  text=[f'<span style="color:{palette["keyword_match"]};">{name}</span>' for name in keyword_df.index],
                                  hoverinfo='text', name=wrap_text(', '.join(keywords), width=20)))
     else:
-        # Plot numbered keyword-matched pathways
-        for i, (index, row) in enumerate(keyword_df.iterrows()):
-            showlegend = i == 0  # Only show legend for the first trace
+        # Plot numbered keyword-matched pathways (Start numbering from 1)
+        for i, (index, row) in enumerate(keyword_df.iterrows(), start=1):
+            showlegend = i == 1  # Only show legend for the first trace
             fig.add_trace(go.Scatter(x=[row['GSVA_score']], y=[row['-log10(adj.P.Val)']], mode='text+markers',
                                      marker=dict(size=15, color=palette['keyword_match'], opacity=0.8, line=dict(width=0.5, color='black')),
-                                     text=f"<b style='color:black;'>{i+1}</b>",  # Bold and black color for numbers
+                                     text=f"<b style='color:black;'>{i}</b>",  # Bold and black color for numbers, starting from 1
                                      hoverinfo='text', name=wrap_text(f"{', '.join(keywords)}") if showlegend else None, showlegend=showlegend))
 
     # Add vertical dashed lines at x = -0.2 and x = 0.2
@@ -153,7 +153,7 @@ def update_plot(keywords=[], exclude_keywords=[], logic='AND', width='100%', hei
     fig.update_layout(
         paper_bgcolor='rgba(0,0,0,0)',
         plot_bgcolor='rgba(255,255,255,1)',
-        title='Macrophages: LysM vs ctrl',
+        title='Macrophage: LysM vs ctrl',
         xaxis_title='GSVA Score',
         yaxis_title='-log10(adj.P.Val)',
         title_font_size=18,
@@ -202,7 +202,9 @@ if df is not None:
     # Display the table for keyword-matched pathways if interactive is set to No
     if interactive_keywords == 'No' and not keyword_df.empty:
         st.write("### Keyword-Matched Pathways")
-        st.dataframe(keyword_df[['P.Value']].reset_index().rename(columns={'index': 'Pathway'}))
+        keyword_df_display = keyword_df[['P.Value']].reset_index().rename(columns={'index': 'Pathway'})
+        keyword_df_display.index += 1  # Ensure the table starts numbering from 1
+        st.dataframe(keyword_df_display)
 
     # Display the MSigDB Table
     st.write("### MSigDB Categories And Prefixes")
