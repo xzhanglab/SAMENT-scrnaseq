@@ -153,7 +153,7 @@ def update_plot(keywords=[], exclude_keywords=[], logic='AND', width='100%', hei
     fig.update_layout(
         paper_bgcolor='rgba(0,0,0,0)',
         plot_bgcolor='rgba(255,255,255,1)',
-        title='macrophages : LysM vs ctrl',
+        title='Macrophages: LysM vs ctrl',
         xaxis_title='GSVA Score',
         yaxis_title='-log10(adj.P.Val)',
         title_font_size=18,
