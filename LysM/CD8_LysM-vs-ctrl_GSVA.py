@@ -157,7 +157,8 @@ if df is not None:
     # Display the MSigDB Table
     st.write("### MSigDB Categories And Prefixes")
     st.table(msigdb_table)
-    st.write("You can specify the category desired for your research.")
+    st.write("You can specify the category (\"Prefix\") desired for your research in search box.")
+
     
     # Download plot as PNG or PDF
     st.sidebar.header('Download Plot')
