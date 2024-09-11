@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 # coding: utf-8
-
-# In[5]:
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -21,7 +19,7 @@ except ImportError:
 @st.cache_data
 def load_data():
     dir_path = os.path.dirname(os.path.realpath(__file__))
-    file_path = os.path.join(dir_path, 'macrophages_biotin_positive-vs-negative_GSVA.csv')
+    file_path = os.path.join(dir_path, 'neutrophil_biotin_positive-vs-negative_GSVA.csv')
     
     if not os.path.exists(file_path):
         st.error(f"File {file_path} not found. Please check the file path.")
@@ -155,7 +153,7 @@ def update_plot(keywords=[], exclude_keywords=[], logic='AND', width='100%', hei
     fig.update_layout(
         paper_bgcolor='rgba(0,0,0,0)',
         plot_bgcolor='rgba(255,255,255,1)',
-        title='Macrophage: Biotin Positive vs Negative',
+        title='Neutrophil: Biotin Positive vs Negative',
         xaxis_title='GSVA Score',
         yaxis_title='-log10(adj.P.Val)',
         title_font_size=18,
