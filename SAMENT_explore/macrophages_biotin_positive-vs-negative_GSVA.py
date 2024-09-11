@@ -20,7 +20,7 @@ except ImportError:
 @st.cache_data
 def load_data():
     dir_path = os.path.dirname(os.path.realpath(__file__))
-    file_path = os.path.join(dir_path, 'macrophages_biotin_positive-vs-negative_GSVA_GSVA.csv')
+    file_path = os.path.join(dir_path, 'macrophages_biotin_positive-vs-negative_GSVA.csv')
     
     if not os.path.exists(file_path):
         st.error(f"File {file_path} not found. Please check the file path.")
