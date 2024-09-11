@@ -36,6 +36,20 @@ def load_data():
 
 df = load_data()
 
+# MSigDB table for Prefix selection
+msigdb_table = pd.DataFrame({
+    'Category': ['H: Hallmark Gene Sets', 'C1: Positional Gene Sets', 'C2:CP (Canonical Pathways)', 
+                 'C2:CGP (Chemical and Genetic Perturbations)', 'C3:MIR (MicroRNA targets)', 'C3:TFT (Transcription Factor targets)',
+                 'C4:CGN (Cancer Gene Neighborhoods)', 'C4:CM (Cancer Modules)', 'C5: GOBP (Biological Processes)',
+                 'C5: GOCC (Cellular Components)', 'C5: GOMF (Molecular Functions)', 'C6: Oncogenic Signatures',
+                 'C7: Immunologic Signatures', 'C8: Cell Type Signatures'],
+    'Prefix': ['HALLMARK_', 'CHR', 'KEGG_, REACTOME_, BIOCARTA_', 'CGP_', 'MIR_', 'TFT_',
+               'CGN_', 'CM_', 'GOBP_', 'GOCC_', 'GOMF_', 'C6_, ONCOGENIC_', 'C7_', 'C8_'],
+    'Example': ['HALLMARK_APOPTOSIS', 'CHR1Q22', 'KEGG_APOPTOSIS, REACTOME_CELL_CYCLE', 'CGP_CANCER_DRUGS', 'MIR_21', 'TFT_STAT3',
+                'CGN_P53', 'CM_APOPTOSIS', 'GOBP_APOPTOSIS', 'GOCC_NUCLEUS', 'GOMF_RECEPTOR_ACTIVITY', 'C6_MYC_TARGETS',
+                'C7_T_CELL_RECEPTOR_PATHWAY', 'C8_T_CELL_SIGNATURE']
+})
+
 # Function to categorize pathways
 def get_category(row, keywords=[], exclude_keywords=[], logic='AND'):
     pathway_name = row.name.replace('_', ' ').upper()
@@ -119,6 +133,16 @@ if df is not None:
     
     fig_width = st.sidebar.slider('Figure Width', min_value=400, max_value=1600, value=1000, step=50)
     fig_height = st.sidebar.slider('Figure Height', min_value=400, max_value=1200, value=800, step=50)
+    
+    # Prefix selection for filtering pathways
+    st.sidebar.header('Filter Pathways by Prefix')
+    selected_prefixes = st.sidebar.multiselect('Select Prefixes', msigdb_table['Prefix'].tolist(), default=msigdb_table['Prefix'].tolist())
+    
+    # Filter the data based on selected prefixes
+    if selected_prefixes:
+        pattern = '|'.join(selected_prefixes)  # Create a pattern to match selected prefixes
+        df = df[df.index.str.contains(pattern)]
+
     interactive_keywords = st.sidebar.radio('Keyword-Matched Pathways Interactive?', ('Yes', 'No'))
     
     # Update plot based on user input
@@ -132,22 +156,11 @@ if df is not None:
         st.write("### Keyword-Matched Pathways")
         st.dataframe(keyword_df[['P.Value']].reset_index().rename(columns={'index': 'Pathway'}))
 
-    # Insert the MSigDB table with additional information
-    st.write("## MSigDB Categories And Prefixes")
-    msigdb_table = pd.DataFrame({
-        'Category': ['H: Hallmark Gene Sets', 'C1: Positional Gene Sets', 'C2:CP (Canonical Pathways)', 
-                     'C2:CGP (Chemical and Genetic Perturbations)', 'C3:MIR (MicroRNA targets)', 'C3:TFT (Transcription Factor targets)',
-                     'C4:CGN (Cancer Gene Neighborhoods)', 'C4:CM (Cancer Modules)', 'C5: GOBP (Biological Processes)',
-                     'C5: GOCC (Cellular Components)', 'C5: GOMF (Molecular Functions)', 'C6: Oncogenic Signatures',
-                     'C7: Immunologic Signatures', 'C8: Cell Type Signatures'],
-        'Prefix': ['HALLMARK_', 'CHR', 'KEGG_, REACTOME_, BIOCARTA_', 'CGP_', 'MIR_', 'TFT_',
-                   'CGN_', 'CM_', 'GOBP_', 'GOCC_', 'GOMF_', 'C6_, ONCOGENIC_', 'C7_', 'C8_'],
-        'Example': ['HALLMARK_APOPTOSIS', 'CHR1Q22', 'KEGG_APOPTOSIS, REACTOME_CELL_CYCLE', 'CGP_CANCER_DRUGS', 'MIR_21', 'TFT_STAT3',
-                    'CGN_P53', 'CM_APOPTOSIS', 'GOBP_APOPTOSIS', 'GOCC_NUCLEUS', 'GOMF_RECEPTOR_ACTIVITY', 'C6_MYC_TARGETS',
-                    'C7_T_CELL_RECEPTOR_PATHWAY', 'C8_T_CELL_SIGNATURE']
-    })
+    # Display the MSigDB Table
+    st.write("### MSigDB Categories And Prefixes")
     st.table(msigdb_table)
-    st.write("You can specify the category ("Prefix") desired for your research in search box.")
+    st.write("You can specify the category (\"Prefix\") desired for your research in search box.")
+
     
     # Download plot as PNG or PDF
     st.sidebar.header('Download Plot')
