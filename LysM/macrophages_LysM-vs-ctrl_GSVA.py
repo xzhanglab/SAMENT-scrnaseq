@@ -6,6 +6,7 @@ import numpy as np
 import plotly.graph_objects as go
 import os
 from plotly.io import to_image
+import textwrap
 
 # Check if kaleido is installed for image export
 try:
@@ -70,6 +71,10 @@ def get_category(row, keywords=[], exclude_keywords=[], logic='AND'):
     else:
         return 'non-significant'
 
+# Function to wrap long text in legend
+def wrap_text(text, width=30):
+    return '<br>'.join(textwrap.wrap(text, width=width))
+
 # Function to update the plot
 def update_plot(keywords=[], exclude_keywords=[], logic='AND', width='100%', height=800, interactive=True):
     df['category'] = df.apply(get_category, axis=1, keywords=keywords, exclude_keywords=exclude_keywords, logic=logic)
@@ -101,7 +106,8 @@ def update_plot(keywords=[], exclude_keywords=[], logic='AND', width='100%', hei
         # Plot keyword-matched pathways interactively
         fig.add_trace(go.Scatter(x=keyword_df['GSVA_score'], y=keyword_df['-log10(adj.P.Val)'], mode='markers',
                                  marker=dict(size=15, color=palette['keyword_match'], opacity=0.8, line=dict(width=0.5, color='black')),
-                                 text=[f'<span style="color:{palette["keyword_match"]};">{name}</span>' for name in keyword_df.index], hoverinfo='text', name=', '.join(keywords)))
+                                 text=[f'<span style="color:{palette["keyword_match"]};">{name}</span>' for name in keyword_df.index],
+                                 hoverinfo='text', name=wrap_text(', '.join(keywords), width=20)))
     else:
         # Plot numbered keyword-matched pathways
         for i, (index, row) in enumerate(keyword_df.iterrows()):
@@ -109,12 +115,58 @@ def update_plot(keywords=[], exclude_keywords=[], logic='AND', width='100%', hei
             fig.add_trace(go.Scatter(x=[row['GSVA_score']], y=[row['-log10(adj.P.Val)']], mode='text+markers',
                                      marker=dict(size=15, color=palette['keyword_match'], opacity=0.8, line=dict(width=0.5, color='black')),
                                      text=f"<b style='color:black;'>{i+1}</b>",  # Bold and black color for numbers
-                                     hoverinfo='text', name=f"{', '.join(keywords)}" if showlegend else None, showlegend=showlegend))
+                                     hoverinfo='text', name=wrap_text(f"{', '.join(keywords)}") if showlegend else None, showlegend=showlegend))
 
-    # Set layout
-    fig.update_layout(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(255,255,255,1)', title='macrophages T cell: LysM vs ctrl',
-                      xaxis_title='GSVA Score', yaxis_title='-log10(adj.P.Val)', title_font_size=18, width=width, height=height,
-                      legend_title_text='Pathway Categories', autosize=True)
+    # Add vertical dashed lines at x = -0.2 and x = 0.2
+    fig.update_layout(
+        shapes=[
+            dict(
+                type="line",
+                x0=-0.2,
+                y0=0,
+                x1=-0.2,
+                y1=df['-log10(adj.P.Val)'].max(),
+                line=dict(
+                    color="grey",
+                    width=2,
+                    dash="dash",
+                ),
+                layer='above'  # Ensure the line is drawn above the data points
+            ),
+            dict(
+                type="line",
+                x0=0.2,
+                y0=0,
+                x1=0.2,
+                y1=df['-log10(adj.P.Val)'].max(),
+                line=dict(
+                    color="grey",
+                    width=2,
+                    dash="dash",
+                ),
+                layer='above'
+            )
+        ]
+    )
+
+    # Set layout with wrapped legend text
+    fig.update_layout(
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(255,255,255,1)',
+        title='macrophages : LysM vs ctrl',
+        xaxis_title='GSVA Score',
+        yaxis_title='-log10(adj.P.Val)',
+        title_font_size=18,
+        width=width,
+        height=height,
+        legend_title_text='Pathway Categories',
+        autosize=True,
+        legend=dict(
+            x=1, y=1, 
+            bgcolor='rgba(255,255,255,0)',  # Transparent background for legend
+            bordercolor='rgba(255,255,255,0)',  # Transparent border
+        )
+    )
     
     return fig, keyword_df
 
