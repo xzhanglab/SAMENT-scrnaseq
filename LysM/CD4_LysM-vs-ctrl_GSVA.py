@@ -4,11 +4,6 @@
 # In[3]:
 #!/usr/bin/env python
 # coding: utf-8
-#!/usr/bin/env python
-# coding: utf-8
-#!/usr/bin/env python
-# coding: utf-8
-
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -42,9 +37,14 @@ def load_data():
 df = load_data()
 
 # Function to categorize pathways
-def get_category(row, keywords=[], logic='AND'):
+def get_category(row, keywords=[], exclude_keywords=[], logic='AND'):
     pathway_name = row.name.replace('_', ' ').upper()
     keywords = [kw.upper().strip() for kw in keywords if kw.strip() != '']
+    exclude_keywords = [kw.upper().strip() for kw in exclude_keywords if kw.strip() != '']
+    
+    # Exclude pathways that match any excluded keywords
+    if any(keyword in pathway_name for keyword in exclude_keywords):
+        return 'non-significant'
     
     if logic == 'AND':
         if all(keyword in pathway_name for keyword in keywords):
@@ -61,8 +61,8 @@ def get_category(row, keywords=[], logic='AND'):
         return 'non-significant'
 
 # Function to update the plot
-def update_plot(keywords=[], logic='AND', width='100%', height=800, interactive=True):
-    df['category'] = df.apply(get_category, axis=1, keywords=keywords, logic=logic)
+def update_plot(keywords=[], exclude_keywords=[], logic='AND', width='100%', height=800, interactive=True):
+    df['category'] = df.apply(get_category, axis=1, keywords=keywords, exclude_keywords=exclude_keywords, logic=logic)
     palette = {'keyword_match': '#32CD32', 'upregulated': '#FF6347', 'downregulated': '#1E90FF', 'non-significant': '#A9A9A9'}
     fig = go.Figure()
     
@@ -114,13 +114,15 @@ if df is not None:
     num_keywords = st.sidebar.number_input('Number of Keywords', min_value=1, max_value=10, value=2)
     keywords = [st.sidebar.text_input(f'Keyword {i+1}') for i in range(num_keywords)]
     logic = st.sidebar.selectbox('Logic', ['AND', 'OR'])
+    exclude_keywords = st.sidebar.text_area('Exclude Keywords (comma-separated)').split(',')
     keywords = [kw for kw in keywords if kw.strip() != '']
-    fig_width = st.sidebar.slider('Figure Width', min_value=400, max_value=1200, value=1000, step=50)
-    fig_height = st.sidebar.slider('Figure Height', min_value=400, max_value=1000, value=800, step=50)
+    
+    fig_width = st.sidebar.slider('Figure Width', min_value=400, max_value=1600, value=1000, step=50)
+    fig_height = st.sidebar.slider('Figure Height', min_value=400, max_value=1200, value=800, step=50)
     interactive_keywords = st.sidebar.radio('Keyword-Matched Pathways Interactive?', ('Yes', 'No'))
     
     # Update plot based on user input
-    fig, keyword_df = update_plot(keywords, logic, width=fig_width, height=fig_height, interactive=(interactive_keywords == 'Yes'))
+    fig, keyword_df = update_plot(keywords, exclude_keywords, logic, width=fig_width, height=fig_height, interactive=(interactive_keywords == 'Yes'))
     
     # Display plot
     st.plotly_chart(fig, use_container_width=True)
@@ -130,11 +132,23 @@ if df is not None:
         st.write("### Keyword-Matched Pathways")
         st.dataframe(keyword_df[['P.Value']].reset_index().rename(columns={'index': 'Pathway'}))
 
-    st.write(f"Keywords used: {keywords}")
-    st.write(f"Logic used: {logic}")
-    st.write(f"Figure size: {fig_width} x {fig_height}")
-    st.write(f"Keyword-Matched Pathways Interactive: {interactive_keywords}")
-
+    # Insert the MSigDB table with additional information
+    st.write("## MSigDB Categories And Prefixes")
+    msigdb_table = pd.DataFrame({
+        'Category': ['H: Hallmark Gene Sets', 'C1: Positional Gene Sets', 'C2:CP (Canonical Pathways)', 
+                     'C2:CGP (Chemical and Genetic Perturbations)', 'C3:MIR (MicroRNA targets)', 'C3:TFT (Transcription Factor targets)',
+                     'C4:CGN (Cancer Gene Neighborhoods)', 'C4:CM (Cancer Modules)', 'C5: GOBP (Biological Processes)',
+                     'C5: GOCC (Cellular Components)', 'C5: GOMF (Molecular Functions)', 'C6: Oncogenic Signatures',
+                     'C7: Immunologic Signatures', 'C8: Cell Type Signatures'],
+        'Prefix': ['HALLMARK_', 'CHR', 'KEGG_, REACTOME_, BIOCARTA_', 'CGP_', 'MIR_', 'TFT_',
+                   'CGN_', 'CM_', 'GOBP_', 'GOCC_', 'GOMF_', 'C6_, ONCOGENIC_', 'C7_', 'C8_'],
+        'Example': ['HALLMARK_APOPTOSIS', 'CHR1Q22', 'KEGG_APOPTOSIS, REACTOME_CELL_CYCLE', 'CGP_CANCER_DRUGS', 'MIR_21', 'TFT_STAT3',
+                    'CGN_P53', 'CM_APOPTOSIS', 'GOBP_APOPTOSIS', 'GOCC_NUCLEUS', 'GOMF_RECEPTOR_ACTIVITY', 'C6_MYC_TARGETS',
+                    'C7_T_CELL_RECEPTOR_PATHWAY', 'C8_T_CELL_SIGNATURE']
+    })
+    st.table(msigdb_table)
+    st.write("You can specify the category ("Prefix") desired for your research in search box.")
+    
     # Download plot as PNG or PDF
     st.sidebar.header('Download Plot')
     download_format = st.sidebar.radio('Download Format', ('PNG', 'PDF'))
