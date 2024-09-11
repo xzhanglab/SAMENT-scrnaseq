@@ -43,8 +43,8 @@ msigdb_table = pd.DataFrame({
                  'C4:CGN (Cancer Gene Neighborhoods)', 'C4:CM (Cancer Modules)', 'C5: GOBP (Biological Processes)',
                  'C5: GOCC (Cellular Components)', 'C5: GOMF (Molecular Functions)', 'C6: Oncogenic Signatures',
                  'C7: Immunologic Signatures', 'C8: Cell Type Signatures'],
-    'Prefix': ['HALLMARK_', 'CHR', 'KEGG_, REACTOME_, BIOCARTA_', 'CGP_', 'MIR_', 'TFT_',
-               'CGN_', 'CM_', 'GOBP_', 'GOCC_', 'GOMF_', 'C6_, ONCOGENIC_', 'C7_', 'C8_'],
+    'Prefix': ['HALLMARK', 'CHR', 'KEGG, REACTOME, BIOCARTA', 'CGP', 'MIR', 'TFT',
+               'CGN', 'CM', 'GOBP', 'GOCC', 'GOMF', 'C6, ONCOGENIC', 'C7', 'C8'],
     'Example': ['HALLMARK_APOPTOSIS', 'CHR1Q22', 'KEGG_APOPTOSIS, REACTOME_CELL_CYCLE', 'CGP_CANCER_DRUGS', 'MIR_21', 'TFT_STAT3',
                 'CGN_P53', 'CM_APOPTOSIS', 'GOBP_APOPTOSIS', 'GOCC_NUCLEUS', 'GOMF_RECEPTOR_ACTIVITY', 'C6_MYC_TARGETS',
                 'C7_T_CELL_RECEPTOR_PATHWAY', 'C8_T_CELL_SIGNATURE']
