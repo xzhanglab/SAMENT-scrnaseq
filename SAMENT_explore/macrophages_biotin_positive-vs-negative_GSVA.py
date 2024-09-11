@@ -126,7 +126,7 @@ def update_plot(keywords=[], exclude_keywords=[], logic='AND', width='100%', hei
                 type="line",
                 x0=-0.2,
                 y0=0,
-                x1=-0.2,
+                x1=-0.5,
                 y1=df['-log10(adj.P.Val)'].max(),
                 line=dict(
                     color="grey",
@@ -139,7 +139,7 @@ def update_plot(keywords=[], exclude_keywords=[], logic='AND', width='100%', hei
                 type="line",
                 x0=0.2,
                 y0=0,
-                x1=0.2,
+                x1=0.5,
                 y1=df['-log10(adj.P.Val)'].max(),
                 line=dict(
                     color="grey",
@@ -155,7 +155,7 @@ def update_plot(keywords=[], exclude_keywords=[], logic='AND', width='100%', hei
     fig.update_layout(
         paper_bgcolor='rgba(0,0,0,0)',
         plot_bgcolor='rgba(255,255,255,1)',
-        title='Macrophages: Biotin Positive vs negative',
+        title='Macrophages: Biotin Positive vs Negative',
         xaxis_title='GSVA Score',
         yaxis_title='-log10(adj.P.Val)',
         title_font_size=18,
