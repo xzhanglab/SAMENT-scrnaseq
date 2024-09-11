@@ -1,13 +1,12 @@
 #!/usr/bin/env python
 # coding: utf-8
-
 import streamlit as st
 import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
 import os
 from plotly.io import to_image
-import textwrap  # This will help us wrap long legend text
+import textwrap
 
 # Check if kaleido is installed for image export
 try:
@@ -98,6 +97,38 @@ def update_plot(keywords=[], logic='AND', width='100%', height=800, interactive=
                                      marker=dict(size=15, color=palette['keyword_match'], opacity=0.8, line=dict(width=0.5, color='black')),
                                      text=f"<b style='color:black;'>{i+1}</b>",  # Bold and black color for numbers
                                      hoverinfo='text', name=wrap_text(f"{', '.join(keywords)}") if showlegend else None, showlegend=showlegend))
+
+    # Add vertical dashed lines at x = -0.2 and x = 0.2
+    fig.update_layout(
+        shapes=[
+            dict(
+                type="line",
+                x0=-0.2,
+                y0=0,
+                x1=-0.2,
+                y1=df['-log10(adj.P.Val)'].max(),
+                line=dict(
+                    color="grey",
+                    width=2,
+                    dash="dash",
+                ),
+                layer='above'  # Ensure the line is drawn above the data points
+            ),
+            dict(
+                type="line",
+                x0=0.2,
+                y0=0,
+                x1=0.2,
+                y1=df['-log10(adj.P.Val)'].max(),
+                line=dict(
+                    color="grey",
+                    width=2,
+                    dash="dash",
+                ),
+                layer='above'
+            )
+        ]
+    )
 
     # Set layout
     fig.update_layout(
