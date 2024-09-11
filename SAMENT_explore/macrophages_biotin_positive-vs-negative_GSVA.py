@@ -124,7 +124,7 @@ def update_plot(keywords=[], exclude_keywords=[], logic='AND', width='100%', hei
         shapes=[
             dict(
                 type="line",
-                x0=-0.2,
+                x0=-0.5,
                 y0=0,
                 x1=-0.5,
                 y1=df['-log10(adj.P.Val)'].max(),
@@ -137,7 +137,7 @@ def update_plot(keywords=[], exclude_keywords=[], logic='AND', width='100%', hei
             ),
             dict(
                 type="line",
-                x0=0.2,
+                x0=0.5,
                 y0=0,
                 x1=0.5,
                 y1=df['-log10(adj.P.Val)'].max(),
