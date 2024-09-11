@@ -1,9 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[3]:
-#!/usr/bin/env python
-# coding: utf-8
+
 import streamlit as st
 import pandas as pd
 import numpy as np
