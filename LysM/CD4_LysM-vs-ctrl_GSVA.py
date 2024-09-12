@@ -200,7 +200,7 @@ if df is not None:
         pattern = '|'.join(selected_prefixes)  # Create a pattern to match selected prefixes
         df = df[df.index.str.contains(pattern)]
 
-    interactive_keywords = st.sidebar.radio('Keyword-Matched Pathways Interactive?', ('Yes', 'No'), index=1)  # Default to 'No'
+    interactive_keywords = st.sidebar.radio('Keyword-Matched Pathways Interactive?', ('Yes', 'No'), index=0)  # Default to 'No'
     
     # Update plot based on user input
     fig, keyword_df = update_plot(keywords, exclude_keywords, logic, neg_cutoff, pos_cutoff, significance_cutoff, width=fig_width, height=fig_height, interactive=(interactive_keywords == 'Yes'))
