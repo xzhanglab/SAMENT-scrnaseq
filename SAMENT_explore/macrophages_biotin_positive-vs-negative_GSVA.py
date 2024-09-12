@@ -7,6 +7,20 @@ import plotly.graph_objects as go
 import os
 from plotly.io import to_image
 import textwrap
+import streamlit.components.v1 as components
+
+# Embed Google Analytics Tracking Code
+GA_MEASUREMENT_ID = "G-ST1X16N2KC"
+ga_code = f"""
+<script async src="https://www.googletagmanager.com/gtag/js?id={GA_MEASUREMENT_ID}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){{dataLayer.push(arguments);}}
+  gtag('js', new Date());
+  gtag('config', '{GA_MEASUREMENT_ID}');
+</script>
+"""
+components.html(ga_code, height=0, width=0)
 
 # Check if kaleido is installed for image export
 try:
