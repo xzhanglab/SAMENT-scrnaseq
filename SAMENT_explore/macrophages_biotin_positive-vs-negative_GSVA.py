@@ -9,7 +9,7 @@ import streamlit.components.v1 as components
 
 # Embed Google Analytics Tracking Code using a custom Streamlit component
 def google_analytics():
-    GA_MEASUREMENT_ID = "G-ST1X16N2KC"
+    GA_MEASUREMENT_ID = "G-ST1X16N2KC"  # Your Google Analytics ID
     ga_code = f"""
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id={GA_MEASUREMENT_ID}"></script>
@@ -20,9 +20,9 @@ def google_analytics():
       gtag('config', '{GA_MEASUREMENT_ID}');
     </script>
     """
-    components.html(ga_code, height=0)  # Inject Google Analytics into the page
+    components.html(ga_code, height=0)  # Inject the GA code into the Streamlit app
 
-# Call the Google Analytics function at the top of your app
+# Call the Google Analytics function at the start of the app
 google_analytics()
 
 # Check if kaleido is installed for image export
