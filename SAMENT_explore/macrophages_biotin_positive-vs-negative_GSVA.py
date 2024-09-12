@@ -12,12 +12,12 @@ import streamlit.components.v1 as components
 # Embed Google Analytics Tracking Code
 GA_MEASUREMENT_ID = "G-ST1X16N2KC"
 ga_code = f"""
-<script async src="https://www.googletagmanager.com/gtag/js?id={GA_MEASUREMENT_ID}"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ST1X16N2KC"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){{dataLayer.push(arguments);}}
   gtag('js', new Date());
-  gtag('config', '{GA_MEASUREMENT_ID}');
+  gtag('config', 'G-ST1X16N2KC');
 </script>
 """
 components.html(ga_code, height=0, width=0)
