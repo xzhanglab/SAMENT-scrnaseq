@@ -1,4 +1,3 @@
-
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -6,20 +5,25 @@ import plotly.graph_objects as go
 import os
 from plotly.io import to_image
 import textwrap
+import streamlit.components.v1 as components
 
-# Embed Google Analytics Tracking Code using st.markdown
-GA_MEASUREMENT_ID = "G-ST1X16N2KC"
-ga_code = f"""
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id={GA_MEASUREMENT_ID}"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){{dataLayer.push(arguments);}}
-  gtag('js', new Date());
-  gtag('config', '{GA_MEASUREMENT_ID}');
-</script>
-"""
-st.markdown(f'<head>{ga_code}</head>', unsafe_allow_html=True)
+# Embed Google Analytics Tracking Code using a custom Streamlit component
+def google_analytics():
+    GA_MEASUREMENT_ID = "G-ST1X16N2KC"
+    ga_code = f"""
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id={GA_MEASUREMENT_ID}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){{dataLayer.push(arguments);}}
+      gtag('js', new Date());
+      gtag('config', '{GA_MEASUREMENT_ID}');
+    </script>
+    """
+    components.html(ga_code, height=0)  # Inject Google Analytics into the page
+
+# Call the Google Analytics function at the top of your app
+google_analytics()
 
 # Check if kaleido is installed for image export
 try:
