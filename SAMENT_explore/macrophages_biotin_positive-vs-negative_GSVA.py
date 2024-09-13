@@ -7,24 +7,18 @@ from plotly.io import to_image
 import textwrap
 import streamlit.components.v1 as components
 
-# Embed Google Analytics Tracking Code using a custom Streamlit component
-def google_analytics():
-    GA_MEASUREMENT_ID = "G-ST1X16N2KC"  # Replace with your Google Analytics ID
-    ga_code = f"""
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id={GA_MEASUREMENT_ID}"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){{dataLayer.push(arguments);}}
-      gtag('js', new Date());
-      gtag('config', '{GA_MEASUREMENT_ID}');
-    </script>
-    """
-    # Inject the HTML for the Google Analytics tracking code
-    components.html(ga_code, height=0)
+# Insert the Google Analytics tracking code
+components.html("""
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ST1X16N2KC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ST1X16N2KC');
+</script>
+""", height=0, width=0)
 
-# Inject Google Analytics into the app
-google_analytics()
 # Check if kaleido is installed for image export
 try:
     import kaleido
