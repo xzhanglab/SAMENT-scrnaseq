@@ -6,7 +6,7 @@ This repository provides instructions and code to reproduce the major results, n
 
 ### <span style="font-size: 14px;">Citation</span>
 <span style="font-size: 12px;">
-Liu, F., Xu, Z., Ding, Y., Hao, X., Pan, T., Miles, G., Wu, Y.-H., Liu, J., Bado, I. L., Zhang, W., Wu, L., Gao, Y., Yu, L., Edwards, D. G., Chan, H. L., Aguirre, S., Dieffenbach, M. W., Chen, E., Shen, Y., Hoffman, D., Dominguez, L. B., Rivas, C. H., Chen, X., Wang, H., Gugala, Z., Satcher, R. L., & Zhang, X. H.-F. (2024).Unbiased metastatic niche-labeling identifies estrogen receptor-positive macrophages as a barrier of T cell infiltration during bone colonization. bioRxiv. https://doi.org/10.1101/2024.05.07.593016
+Xu, Z., Liu, F., Ding, Y., Hao, X., Pan, T., Miles, G., Wu, Y.-H., Liu, J., Bado, I. L., Zhang, W., Wu, L., Gao, Y., Yu, L., Edwards, D. G., Chan, H. L., Aguirre, S., Dieffenbach, M. W., Chen, E., Shen, Y., Hoffman, D., Dominguez, L. B., Rivas, C. H., Chen, X., Wang, H., Gugala, Z., Satcher, R. L., & Zhang, X. H.-F. (2024).Unbiased metastatic niche-labeling identifies estrogen receptor-positive macrophages as a barrier of T cell infiltration during bone colonization. bioRxiv. https://doi.org/10.1101/2024.05.07.593016
 </span>
 
 <br>
