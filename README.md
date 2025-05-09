@@ -55,7 +55,7 @@ These instructions will guide you through the following:
 
 ---
 
-## <span style="font-size: 14px;">Data file (from Zenodo)</span>
+### <span style="font-size: 14px;">Data file (from Zenodo)</span>
 
 | Directory/File                      | Description                                                                 |
 |-------------------------------------|-----------------------------------------------------------------------------|
