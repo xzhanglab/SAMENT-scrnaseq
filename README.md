@@ -36,12 +36,12 @@ These instructions will guide you through the following:
 | <span style="font-size: 12px;">01_preprocessing_demultiplexing_template.Rmd</span>      | <span style="font-size: 12px;">Process Cell Ranger outputs and generate individual Seurat objects, including demultiplexing</span>              |
 | <span style="font-size: 12px;">02_integration.Rmd</span>          | <span style="font-size: 12px;">Integration of the single cell objects</span>                  |
 | <span style="font-size: 12px;">02_integration_Seurat.v5_47_samples.Rmd</span>          | <span style="font-size: 12px;">Integration of a total of 47 samples as Seurat v5 assay</span>                         |
-| <span style="font-size: 12px;">03_scanpy_plot.ipynb</span>                                    | <span style="font-size: 12px;">Generate the plots in Scanpy</span>                                              | Fig S1A-S1C; Table S2          |
+| <span style="font-size: 12px;">03_scanpy_plot.ipynb</span>                                    | <span style="font-size: 12px;">Generate the plots in Scanpy</span>                                              | 
 | <span style="font-size: 12px;">04_processing_for_DESeq2.Rmd</span>     | <span style="font-size: 12px;">Prepare DESeq2 object for DEG and pathway analysis</span>                              |
 | <span style="font-size: 12px;">05_DESeq2_DEG.Rmd</span>                       | <span style="font-size: 12px;">DEG analysis</span>                                                                   |         |
 | <span style="font-size: 12px;">06.1_pre_requested_Matrix.utils.R</span>                                      | <span style="font-size: 12px;">Prerequested package</span>                                                   |                 |
 | <span style="font-size: 12px;">06.2_GSEA.Rmd</span>                                      | <span style="font-size: 12px;">GSEA analysis</span>                                                                  |
-| <span style="font-size: 12px;">07.GSVA.Rmd</span>                       | <span style="font-size: 12px;">GSVA analysis</span>                                                           | Fig 4; Fig S4; Table S4        |
+| <span style="font-size: 12px;">07.GSVA.Rmd</span>                       | <span style="font-size: 12px;">GSVA analysis</span>                                                           | 
 | <span style="font-size: 12px;">08.velocyto.ipynb</span>                                  | <span style="font-size: 12px;">trajectory analysis</span>                                               |
 | <span style="font-size: 12px;">09.expression_distence.ipynb</span> | <span style="font-size: 12px;">Transcriptomic differences</span>                                   |
 | <span style="font-size: 12px;">10.CellChat_comparsion.Rmd</span> | <span style="font-size: 12px;">Cell-cell conmunication analysis</span>                                   |
