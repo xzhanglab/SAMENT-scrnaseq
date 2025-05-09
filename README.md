@@ -30,7 +30,7 @@ These instructions will guide you through the following:
 </span>
 
 ### <span style="font-size: 14px;">Inter-active Volcanoplot: exploying differentially regulated pathways between biotin positive and negative populations</span>
-
+#### it may take a while to load the app, please be patient
 <span style="font-size: 12px;">
 SAMENT Macrophage: https://samentexplore-jxgg9fba6fuyn38wpxvwc7.streamlit.app
 <br>
