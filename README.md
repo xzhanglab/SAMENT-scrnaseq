@@ -14,6 +14,16 @@ Liu, F., Xu, Z., Ding, Y., Hao, X., Pan, T., Miles, G., Wu, Y.-H., Liu, J., Bado
 
 <br>
 
+### <span style="font-size: 14px;">Inter-active Volcanoplot: exploying differentially regulated pathways between biotin positive and negative populations</span>
+#### it may take a while to load the app, please be patient
+<span style="font-size: 12px;">
+SAMENT Macrophage: https://samentexplore-jxgg9fba6fuyn38wpxvwc7.streamlit.app
+<br>
+
+<span style="font-size: 12px;">
+SAMENT Neutrophil: https://neutrophilbiotinpositive-vs-negativegsvapy-dd42nk8mhnrf4vjhvuo.streamlit.app/
+<br>
+  
 ### <span style="font-size: 14px;">Data</span>
 <span style="font-size: 12px;">
 All intermediate data produced by running this code, as described below, are available for download on <a href="https://doi.org/10.5281/zenodo.14796581"><b>Zenodo</b></a>.
@@ -29,15 +39,7 @@ These instructions will guide you through the following:
 <br>
 </span>
 
-### <span style="font-size: 14px;">Inter-active Volcanoplot: exploying differentially regulated pathways between biotin positive and negative populations</span>
-#### it may take a while to load the app, please be patient
-<span style="font-size: 12px;">
-SAMENT Macrophage: https://samentexplore-jxgg9fba6fuyn38wpxvwc7.streamlit.app
-<br>
 
-<span style="font-size: 12px;">
-SAMENT Neutrophil: https://neutrophilbiotinpositive-vs-negativegsvapy-dd42nk8mhnrf4vjhvuo.streamlit.app/
-<br>
 
 
 | **File Name**                                    | **Description**                                                                 | 
