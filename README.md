@@ -1,6 +1,3 @@
-SAMENT Macrophage: https://samentexplore-jxgg9fba6fuyn38wpxvwc7.streamlit.app
-SAMENT Neutrophil: https://neutrophilbiotinpositive-vs-negativegsvapy-dd42nk8mhnrf4vjhvuo.streamlit.app/
-
 # <span style="font-size: 16px;">Unbiased metastatic niche-labeling identifies estrogen receptor-positive macrophages as a barrier of T cell infiltration during bone colonization</span>
 
 <span style="font-size: 12px;">
