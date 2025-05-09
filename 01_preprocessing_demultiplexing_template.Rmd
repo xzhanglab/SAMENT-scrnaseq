@@ -1,0 +1,222 @@
+---
+title: "01_preprocessing"
+author: "Fengshuo"
+date: '2023-05-02'
+output: html_document
+---
+
+```{r, setting up}
+rm(list = ls())
+library(Seurat)
+library(Seurat)
+library(ggplot2)
+library(dplyr)
+library(celldex)
+library(data.table)
+library(magrittr)
+library(clusterProfiler)
+library(seurathelpeR)
+```
+
+```{r, load dataset}
+rm(list = ls())
+# Load the dataset
+df.data <- Read10X(data.dir = "~/fengshuo_data/Zhan/i.c.injection_per_sample_outs/53975_53978/Biotin_neg_Brain/count/sample_feature_bc_matrix/")
+# Initialize the Seurat object with the raw (non-normalized data).
+df <- CreateSeuratObject(counts = df.data[["Gene Expression"]],
+                         project = "XZ53975_XZ53978-A-Brain-neg-2", min.cells = 3, min.features = 200
+                         )
+df
+```
+
+```{r, Generating quality metrics}
+# Explore merged metadata
+#View(df@meta.data)
+# Add number of genes per UMI for each cell to metadata
+df$log10GenesPerUMI <- log10(df$nFeature_RNA) / log10(df$nCount_RNA)
+# Compute percent mito ratio
+df$mitoRatio <- PercentageFeatureSet(object = df, pattern = "^mt-")
+df$mitoRatio <- df@meta.data$mitoRatio / 100
+# Create metadata dataframe
+metadata <- df@meta.data
+# Add cell IDs to metadata
+metadata$cells <- rownames(metadata)
+
+# Rename columns
+metadata <- metadata %>%
+        dplyr::rename(seq_folder = orig.ident,
+                      nUMI = nCount_RNA,
+                      nGene = nFeature_RNA)
+# Create sample column
+df[["seq.ID"]] <- "XZ53975_XZ53978"
+df[["surgery"]] <- "IC"
+df[["age"]] <- "A"
+df[["tissue"]] <- "brain"
+df[["biotin"]] <- "neg"
+df[["replicate"]] <- "rep2"
+# Visualize the number UMIs/transcripts per cell
+metadata %>% 
+  	ggplot(aes(x=nUMI)) + 
+  	geom_density(alpha = 0.2) + 
+  	scale_x_log10() + 
+  	theme_classic() +
+  	ylab("Cell density") +
+  	geom_vline(xintercept = 500)
+
+# Visualize the distribution of genes detected per cell via histogram
+metadata %>% 
+  	ggplot(aes(x=nGene)) + 
+  	geom_density(alpha = 0.2) + 
+  	theme_classic() +
+  	scale_x_log10() + 
+  	geom_vline(xintercept = 300)
+
+metadata %>% 
+  	ggplot(aes( x=mitoRatio)) + 
+  	geom_density(alpha = 0.2) + 
+  	scale_x_log10() + 
+  	theme_classic() +
+  	geom_vline(xintercept = 0.2)
+# Visualize the overall complexity of the gene expression by visualizing the genes detected per UMI
+metadata %>%
+  	ggplot(aes(x=log10GenesPerUMI)) +
+  	geom_density(alpha = 0.2) +
+  	theme_classic() +
+  	geom_vline(xintercept = 0.8)
+
+df <- subset(x = df, 
+             subset= (nFeature_RNA >= 250) & 
+               (nFeature_RNA < 6000) &
+               (log10GenesPerUMI > 0.80) & 
+               (mitoRatio < 0.10))
+# Visualize QC metrics as a violin plot
+# The [[ operator can add columns to object metadata. This is a great place to stash QC stats
+df[["percent.mt"]] <- PercentageFeatureSet(df, pattern = "^mt-")
+VlnPlot(df, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+df
+```
+
+```{r}
+df <- NormalizeData(df, normalization.method = "LogNormalize", scale.factor = 10000)
+df <- FindVariableFeatures(df, selection.method = "vst", nfeatures = 2000)
+df <- SCTransform(df, vars.to.regress = "percent.mt", verbose = FALSE)
+# Identify the 10 most highly variable genes
+top10 <- head(VariableFeatures(df), 10)
+all.genes <- rownames(df)
+df <- ScaleData(df, features = all.genes)
+df <- RunPCA(df, features = VariableFeatures(object = df))
+df <- FindNeighbors(df, dims = 1:30)
+df <- FindClusters(df, resolution = 1)
+# If you haven't installed UMAP, you can do so via reticulate::py_install(packages =
+# 'umap-learn')
+df <- RunUMAP(df, dims = 1:30)
+# note that you can set `label = TRUE` or use the LabelClusters function to help label
+# individual clusters
+DimPlot(df, reduction = "umap", group.by = "SCT_snn_res.1")
+
+saveRDS(df, './data/aged-Brain-neg-rep2.rds')
+```
+
+```{r}
+saveRDS(df, './data/y-B-n-1.rds')
+```
+
+```{r, mordify the human data}
+library(dplyr)
+library(purrr)
+
+# Function definition
+pct_exp <- function(seurat_obj, features, group.by, assay = "RNA") {
+  
+  # Get the expression data and metadata using FetchData()
+  data_df <- FetchData(seurat_obj, vars = c(features, group.by), slot = "data", assay = assay)
+  
+  # Function to calculate percentage of cells expressing the gene(s) for a given group
+  percentage_expr <- function(group_df) {
+    threshold <- log1p(1)
+    gene_expression <- apply(group_df[, features, drop = FALSE], 1, function(x) any(x > threshold))
+    percentage <- sum(gene_expression) / length(gene_expression) * 100
+    return(percentage)
+  }
+  
+  # Calculate the percentage of cells expressing the genes for each group
+  results <- data_df %>%
+    group_by(across(all_of(group.by))) %>%
+    summarize(percentage = percentage_expr(cur_data()), .groups = "drop")
+  
+  return(results)
+}
+# Example usage
+seurat_obj <- df
+features <- "S100a8"
+group.by <- c("SCT_snn_res.1")
+assay <- "RNA"
+
+results <- pct_exp(seurat_obj, features, group.by, assay)
+print(results)
+```
+```{r}
+genes_to_check = c("PTPRC","KRT19","EPCAM",'KRT18','KRT8',"CD3G","CD3E", "CD79A")
+DotPlot(df, features = genes_to_check,
+             assay='RNA' )  
+```
+```{r}
+unique(df$orig.ident)
+
+df <- subset(df, subset = orig.ident == "XZ20620")
+
+#df[["group"]] <- "sham"
+df[["seq.ID"]] <- "XZ20620"
+df[["surgery"]] <- ""
+df[["age"]] <- "-"
+df[["tissue"]] <- "bone marrow"
+df[["biotin"]] <- "-"
+df[["replicate"]] <- "rep2"
+
+df <- NormalizeData(df, normalization.method = "LogNormalize", scale.factor = 10000)
+df <- FindVariableFeatures(df, selection.method = "vst", nfeatures = 2000)
+df <- SCTransform(df, vars.to.regress = "percent.mt", verbose = FALSE)
+# Identify the 10 most highly variable genes
+top10 <- head(VariableFeatures(df), 10)
+all.genes <- rownames(df)
+df <- ScaleData(df, features = all.genes)
+df <- RunPCA(df, features = VariableFeatures(object = df))
+df <- FindNeighbors(df, dims = 1:30)
+df <- FindClusters(df, resolution = 1)
+# If you haven't installed UMAP, you can do so via reticulate::py_install(packages =
+# 'umap-learn')
+df <- RunUMAP(df, dims = 1:30)
+# note that you can set `label = TRUE` or use the LabelClusters function to help label
+# individual clusters
+DimPlot(df, reduction = "umap", group.by = "cell_type")
+
+saveRDS(df, './data/aged-Brain-neg-rep2.rds')
+```
+```{r}
+#deal with the IIA injection 
+df33[["seq.ID"]] <- "TotalSeqC"
+df33[["surgery"]] <- "IIA"
+df33[["tissue"]] <- "bone marrow"
+# Define the tags for which you want to set the value to "pos"
+positive_tags <- c("CMO301", "CMO303", "CMO305", "CMO307", "CMO309", "CMO311")
+# Add a new column "biotin" to your dataframe
+df33[["biotin"]] <- ifelse(df33$TAG_maxID %in% positive_tags, "pos", "neg")
+#-------------------------------------------------------------------------------
+
+# Define the tags for which you want to set the value to "pos"
+young_tags <- c("CMO301", "CMO302", "CMO303", "CMO304", "CMO305", "CMO306")
+# Add a new column "biotin" to your dataframe
+df33[["age"]] <- ifelse(df33$TAG_maxID %in% young_tags, "Y", "A")
+#-------------------------------------------------------------------------------
+# Define the tags for each group
+rep1_tags <- c("CMO301", "CMO302", "CMO307", "CMO308")
+rep2_tags <- c("CMO303", "CMO304", "CMO309", "CMO310")
+rep3_tags <- c("CMO305", "CMO306", "CMO311", "CMO312")
+
+# Add a new column to your dataframe
+df33[["replicate"]] <- ifelse(df33$TAG_maxID %in% rep1_tags, "rep1",
+                              ifelse(df33$TAG_maxID %in% rep2_tags, "rep2", "rep3"))
+
+
+```
+

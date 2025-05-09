@@ -1,0 +1,85 @@
+---
+title: "GSVA"
+output: html_document
+date: "2023-09-07"
+---
+
+```{r}
+library(clusterProfiler)
+library(GSVA)
+```
+
+```{r}
+# Assuming df is a Seurat object
+
+# Create a unique identifier for each combination of sample and cell type
+df$sample_celltype <- paste(df$sample, df$celltype_C, sep="_")
+
+# Aggregate the data to create the pseudo-bulk dataset
+pseudo_bulk <- AverageExpression(df, features = rownames(df), group.by = "sample_celltype")
+
+# Extract the aggregated data from the Seurat object
+# Transpose the data to have genes as rows and samples as columns
+pseudo_bulk_data <- t(pseudo_bulk$RNA)
+
+# Generate metadata for the pseudo-bulk dataset
+unique_meta <- unique(data.frame(sample_celltype = df$sample_celltype, 
+                                 sample = df$sample, 
+                                 surgery = df$surgery, 
+                                 tissue = df$tissue, 
+                                 biotin = df$biotin, 
+                                 age = df$age, 
+                                 replicate = df$replicate, 
+                                 cell_type = df$celltype_C))
+
+
+write.csv(unique_meta, "./outs/iia_ic_merged/mye_unique_meta.csv", row.names = FALSE)
+write.csv(pseudo_bulk_data, './outs/iia_ic_merged/mye_pseudobulk_count.csv')
+# You can now use pseudo_bulk_final as your pseudo-bulk dataset
+
+```
+
+
+```{r}
+expr_matrix <- as.matrix(pseudo_bulk_final[, !(colnames(pseudo_bulk_final) %in% c( "sample", "surgery", "tissue", "biotin", "age", "replicate"))])
+
+# 2. Define the gene sets
+# Since every gene set will contain all genes, and you want one gene set per cell type, the gene set list will be repetitive:
+all_genes <- rownames(expr_matrix)
+gene_sets <- lapply(unique(pseudo_bulk_final$sample_celltype), function(celltype) all_genes)
+
+# Name the gene sets by the cell type
+names(gene_sets) <- unique(pseudo_bulk_final$sample_celltype)
+
+# 3. Run GSVA
+gsva_results <- gsva(expr_matrix, gene_sets)
+```
+
+```{r}
+# 1. Identify the top N varying genes for each cell type
+N <- 2000 # Adjust as needed
+
+top_genes_per_celltype <- lapply(unique(pseudo_bulk_final$sample_celltype), function(celltype) {
+  celltype_data <- expr_matrix[, pseudo_bulk_final$sample_celltype == celltype]
+  variances <- apply(celltype_data, 1, var)
+  top_genes <- names(sort(variances, decreasing = TRUE))[1:N]
+  return(top_genes)
+})
+
+# Create the gene sets list
+gene_sets <- setNames(top_genes_per_celltype, unique(pseudo_bulk_final$sample_celltype))
+
+# Extract gene names
+gene_names <- colnames(expr_matrix)[!(colnames(expr_matrix) %in% c("sample_celltype", "sample", "surgery", "tissue", "biotin", "age", "replicate"))]
+
+# Set genes as rownames for the expression matrix
+rownames(expr_matrix) <- gene_names
+
+# Run GSVA using the "ssgsea" method
+gsva_results <- gsva(expr_matrix, gene_sets, method="ssgsea")
+
+head(expr_matrix)
+
+```
+
+

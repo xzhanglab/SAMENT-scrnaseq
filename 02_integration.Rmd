@@ -1,0 +1,194 @@
+---
+title: "02_integration"
+author: "Fengshuo"
+date: '2023-05-02'
+output: html_document
+---
+
+```{r}
+rm(list = ls())
+library(Seurat)
+library(ggplot2)
+library(dplyr)
+library(plyr)
+library(data.table)
+library(magrittr)
+library(clusterProfiler)
+library(Seurat)
+library(Matrix)
+library(fossil) 
+library(liger)
+library(ggrepel)
+library(scCustomize)
+library(tidyverse)
+library(patchwork)
+library(qs)
+library(RColorBrewer)
+library(ComplexHeatmap)
+library(Seurat)
+library(ggplot2)
+library(cowplot)
+library(dplyr)
+library(tidydr)
+library(stringr)
+library(viridis)
+library(scCustomize)
+library(SeuratData)
+library(clustree)
+library(UCell)
+
+```
+
+
+```{r}
+#readin data
+df1 <- readRDS("./data/BC01#21.rds")
+df2 <- readRDS("./data/BC02#28.rds")
+df3 <- readRDS("./data/BC03#38.rds")
+df4 <- readRDS("./data/BC04#23.rds")
+df5 <- readRDS("./data/BC05#41.rds")
+df6 <- readRDS("./data/BC06#48.rds")
+df7 <- readRDS("./data/BC07#49.rds")
+df8 <- readRDS("./data/CC01#51-1.rds")
+df9 <- readRDS("./data/CC01#51-2.rds")
+df10 <- readRDS("./data/ctrl01-1.rds")
+df11 <- readRDS("./data/ctrl01-2.rds")
+df12 <- readRDS("./data/ctrl02-1.rds")
+df13 <- readRDS("./data/ctrl02-2.rds")
+df14 <- readRDS("./data/ctrl03-1.rds")
+df15 <- readRDS("./data/ctrl03-2.rds")
+df16 <- readRDS("./data/ctrl04-1.rds")
+df17 <- readRDS("./data/ctrl04-2.rds")
+df18 <- readRDS("./data/ctrl05-1.rds")
+df19 <- readRDS("./data/ctrl05-2.rds")
+df20 <- readRDS("./data/EC01#46.rds")
+df21 <- readRDS("./data/KC01#12.rds")
+df22 <- readRDS("./data/KC02#18.rds")
+df23 <- readRDS("./data/KC03#35.rds")
+df24 <- readRDS("./data/KC04#42.rds")
+df25 <- readRDS("./data/KC05#29.rds")
+df26 <- readRDS("./data/KC06#47.rds")
+df27 <- readRDS("./data/KC07#44.rds")
+df28 <- readRDS("./data/KC08#50-1.rds")
+df29 <- readRDS("./data/KC08#50-2.rds")
+df30 <- readRDS("./data/LC03#43.rds")
+df31 <- readRDS("./data/LC04#36.rds")
+df32 <- readRDS("./data/LC05#33.rds")
+df33 <- readRDS("./data/LC06#26.rds")
+df34 <- readRDS("./data/TC01#9.rds")
+```
+
+#Batch correction
+
+```{r}
+ob.list <- list(df1, df2, df3, df4, df5, df6, df7, df8, df9, df10, df11, df12, df13, df14, df15, df16, df17, df18, df19, df20, df21, df22, df23, df24, df25, df26, df27, df28, df29, df30, df31, df32, df33, df34)
+
+
+df.anchors <- FindIntegrationAnchors(object.list = ob.list, 
+                                     anchor.features = 2000,
+                                     dims = 1:30,
+                                     reduction = 'rpca')
+
+df <- IntegrateData(anchorset = df.anchors, 
+                    dims = 1:30,
+                    preserve.order = T)
+
+df <- subset(df, subset=celltype_B=="pre-Nφ" |
+               celltype_B=="Nφ" |
+               celltype_B=="naive/memory B" |
+               celltype_B=="immature B" |
+               celltype_B=="T",
+             invert=T)
+unique(df$celltype_B)
+DefaultAssay(df) <- "integrated"
+
+# Run the standard workflow for visualization and clustering.
+# The integrated data object only stores the commonly shared variable genes.
+df <- ScaleData(df, 
+                do.center = T,
+                do.scale = F)
+
+df <- RunPCA(df, 
+             npcs = 30,
+             ndims.print = 1:5, 
+             nfeatures.print = 5)
+
+df <- FindNeighbors(df, 
+                    reduction = "pca", 
+                    dims = 1:30,
+                    k.param = 30)
+
+df  <- FindClusters(df ,  
+                               resolution = c(0.2,
+                                              0.4,
+                                              0.6,
+                                              0.8,
+                                              1.0,
+                                              1.2,
+                                              1.4,
+                                              1.6,
+                                              1.8,
+                                              2.0), 
+                               verbose = FALSE)
+cp <- clustree(df)
+cp
+#ggsave(cp, filename = "bmdata_clustree_no_batch_effect.pdf", width = 14,height = 7, dpi = 300, path = './outs/after_removing_batch_effects/')
+
+
+df <- RunTSNE(df, 
+              dims = 1:30, 
+              reduction = "pca", 
+              n.neighbors = 20, 
+              min.dist = 0.5, 
+              spread = 1,
+              metric = "euclidean", 
+              seed.use = 1,
+              tsne.method = "Rtsne",
+              dim.embed = 2,
+              perplexity = 30
+              )  
+
+df <- RunUMAP(df, 
+              dims = 1:30, 
+              reduction = "pca", 
+              n.neighbors = 50, 
+              min.dist = 0.5, 
+              spread = 1,
+              metric = "euclidean", 
+              seed.use = 1,
+              dim.embed = 2
+              )  
+
+saveRDS(df, './data/MoMφDC.rds')
+
+#for clusters, more than 3 colors
+DimPlot(df, 
+                      reduction = "umap", 
+                      group.by = c("biotin"
+                                   ,"celltype_A"
+                                   ,"celltype_B"
+                                   #,"integrated_snn_res.1.8"
+                                   )
+                      ,
+                      ncol = 2,
+                      label = T,
+                      label.size = 4,
+                      pt.size = 1)
+
+
+FeaturePlot(df, features = "CD300C")
+p
+LabelClusters(p, id = "species.cluster_major", fontface= "bold",color = "black", alpha=8, repel = T)
+
+ggsave(filename = "57674-57675_303_310_KC.pdf", width = 18,height = 8, dpi = 600, device=cairo_pdf, path = './outs/check for batch/no_correction_by_cancer/')
+unique(df$major_annotation)
+saveRDS(df, './data/merged/MoMφDC.rds')
+
+library(Seurat)
+library(sceasy)
+library(reticulate)
+DefaultAssay(df) <- "RNA"
+sceasy::convertFormat(df, from="seurat", to="anndata",
+                       outFile='./data/merged/MoMφDC.h5ad')
+```
+
