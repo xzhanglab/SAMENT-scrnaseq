@@ -31,8 +31,8 @@ These instructions will guide you through the following:
 
 <br>
 
-| **File Name**                                    | **Description**                                                                 | **Related Figure**             |
-|--------------------------------------------------|---------------------------------------------------------------------------------|--------------------------------|
+| **File Name**                                    | **Description**                                                                 | 
+|--------------------------------------------------|---------------------------------------------------------------------------------|
 | <span style="font-size: 12px;">01_preprocessing_demultiplexing_template.Rmd</span>      | <span style="font-size: 12px;">Process Cell Ranger outputs and generate individual Seurat objects, including demultiplexing</span>              |
 | <span style="font-size: 12px;">02_integration.Rmd</span>          | <span style="font-size: 12px;">Integration of the single cell objects</span>                  |
 | <span style="font-size: 12px;">02_integration_Seurat.v5_47_samples.Rmd</span>          | <span style="font-size: 12px;">Integration of a total of 47 samples as Seurat v5 assay</span>                         |
