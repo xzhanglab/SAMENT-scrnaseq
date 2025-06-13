@@ -21,7 +21,7 @@ SAMENT Macrophage: https://samentexplore-jxgg9fba6fuyn38wpxvwc7.streamlit.app
 SAMENT Neutrophil: https://neutrophilbiotinpositive-vs-negativegsvapy-dd42nk8mhnrf4vjhvuo.streamlit.app/
 </a>
 <br><br>
-<img src="SAMENT_explore/demo.gif" width="600" alt="SAMENT Neutrophil Demo"/>
+<img src="SAMENT_explore/demo.gif" width="800" alt="SAMENT Neutrophil Demo"/>
 </span>
   
 ### <span style="font-size: 14px;">Data</span>
