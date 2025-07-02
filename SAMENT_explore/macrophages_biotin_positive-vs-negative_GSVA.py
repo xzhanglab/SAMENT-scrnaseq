@@ -225,18 +225,26 @@ if df is not None:
         keyword_df_display = keyword_df[['P.Value']].reset_index().rename(columns={'index': 'Pathway'})
         keyword_df_display.index += 1  # Ensure the table starts numbering from 1
         st.dataframe(keyword_df_display)
-
     # Download plot as PNG or PDF
     st.sidebar.header('Download Plot')
     download_format = st.sidebar.radio('Download Format', ('PNG', 'PDF'))
-    
+
     if st.sidebar.button('Download'):
         if kaleido_available:
-            if download_format == 'PNG':
-                file_bytes = to_image(fig, format='png', engine="kaleido", scale=3)  # 300 DPI
-                st.sidebar.download_button(label='Download as PNG', data=file_bytes, file_name='plot.png', mime='image/png')
-            elif download_format == 'PDF':
-                file_bytes = to_image(fig, format='pdf', engine="kaleido", scale=3)  # 300 DPI
-                st.sidebar.download_button(label='Download as PDF', data=file_bytes, file_name='plot.pdf', mime='application/pdf')
+            try:
+                from io import BytesIO
+                export_bytes = to_image(fig, format=download_format.lower(), engine="kaleido", scale=3)
+                buffer = BytesIO(export_bytes)
+                mime_type = 'image/png' if download_format == 'PNG' else 'application/pdf'
+                file_ext = 'png' if download_format == 'PNG' else 'pdf'
+                st.sidebar.download_button(
+                    label=f"Download as {file_ext.upper()}",
+                    data=buffer,
+                    file_name=f'plot.{file_ext}',
+                    mime=mime_type
+                )
+            except Exception as e:
+                st.sidebar.error(f"Export failed: {e}")
         else:
             st.sidebar.error("Image export requires the 'kaleido' package. Please install it by adding 'kaleido' to your requirements.txt file.")
+
