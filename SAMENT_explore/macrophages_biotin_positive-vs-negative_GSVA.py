@@ -92,7 +92,7 @@ def update_plot(keywords=[], exclude_keywords=[], logic='AND', neg_cutoff=-0.2, 
     upregulated_df = df[df['category'] == 'upregulated']
     fig.add_trace(go.Scatter(x=upregulated_df['GSVA_score'], y=upregulated_df['-log10(adj.P.Val)'], mode='markers',
                              marker=dict(size=8, color=palette['upregulated'], opacity=0.8, line=dict(width=0.5, color='black')),
-                             text=[f'<span style="color:{palette["upregulated"]};">{name}</span>' for name in upregulated_df.index], hoverinfo='text', name='Up-regulated'))
+                             text=[name for name in upregulated_df.index]
 
     # Plot down-regulated pathways
     downregulated_df = df[df['category'] == 'downregulated']
@@ -225,6 +225,7 @@ if df is not None:
         keyword_df_display = keyword_df[['P.Value']].reset_index().rename(columns={'index': 'Pathway'})
         keyword_df_display.index += 1  # Ensure the table starts numbering from 1
         st.dataframe(keyword_df_display)
+                          
     # Download plot as PNG or PDF
     st.sidebar.header('Download Plot')
     download_format = st.sidebar.radio('Download Format', ('PNG', 'PDF'))
@@ -232,19 +233,24 @@ if df is not None:
     if st.sidebar.button('Download'):
         if kaleido_available:
             try:
-                from io import BytesIO
-                export_bytes = to_image(fig, format=download_format.lower(), engine="kaleido", scale=3)
-                buffer = BytesIO(export_bytes)
+                # Remove HTML tags from fig text (Plotly + Kaleido can't render styled text)
+                for trace in fig.data:
+                    if hasattr(trace, "text"):
+                        trace.text = [t if isinstance(t, str) else "" for t in trace.text]
+
+                file_bytes = to_image(fig, format=download_format.lower(), engine="kaleido", scale=3)
                 mime_type = 'image/png' if download_format == 'PNG' else 'application/pdf'
                 file_ext = 'png' if download_format == 'PNG' else 'pdf'
+
                 st.sidebar.download_button(
-                    label=f"Download as {file_ext.upper()}",
-                    data=buffer,
+                    label=f'Download as {file_ext.upper()}',
+                    data=file_bytes,
                     file_name=f'plot.{file_ext}',
                     mime=mime_type
                 )
             except Exception as e:
-                st.sidebar.error(f"Export failed: {e}")
+                st.sidebar.error("Failed to export image. Try reducing plot complexity or removing styled text.")
+                st.sidebar.text(str(e))
         else:
-            st.sidebar.error("Image export requires the 'kaleido' package. Please install it by adding 'kaleido' to your requirements.txt file.")
+            st.sidebar.error("Image export requires the 'kaleido' package. Please install it.")
 
