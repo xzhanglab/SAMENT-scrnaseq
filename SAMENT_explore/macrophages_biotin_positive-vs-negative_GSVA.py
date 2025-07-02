@@ -118,6 +118,7 @@ def update_plot(keywords=[], exclude_keywords=[], logic='AND', width='100%', hei
                                      text=f"<b style='color:black;'>{i}</b>",  # Bold and black color for numbers, starting from 1
                                      hoverinfo='text', name=wrap_text(f"{', '.join(keywords)}") if showlegend else None, showlegend=showlegend))
 
+
     # Add vertical and horizontal dashed lines based on user inputs
     fig.update_layout(
         shapes=[
