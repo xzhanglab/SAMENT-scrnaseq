@@ -73,8 +73,22 @@ def get_category(row, neg_cutoff, pos_cutoff, significance_cutoff, keywords=[], 
         return 'non-significant'
 
 # Function to update the plot
-def update_plot(keywords=[], exclude_keywords=[], logic='AND', width='100%', height=800, interactive=True):
-    df['category'] = df.apply(get_category, axis=1, keywords=keywords, exclude_keywords=exclude_keywords, logic=logic)
+def update_plot(keywords=[], exclude_keywords=[], logic='AND',
+                neg_cutoff=-0.2, pos_cutoff=0.2, significance_cutoff=1.0,
+                width='100%', height=800, interactive=True):
+    df['category'] = df.apply(
+    lambda row: get_category(
+          row,
+          neg_cutoff=neg_cutoff,
+          pos_cutoff=pos_cutoff,
+          significance_cutoff=significance_cutoff,
+          keywords=keywords,
+          exclude_keywords=exclude_keywords,
+          logic=logic
+        ),
+        axis=1
+    )
+
     palette = {'keyword_match': '#32CD32', 'upregulated': '#FF6347', 'downregulated': '#1E90FF', 'non-significant': '#A9A9A9'}
     fig = go.Figure()
     
@@ -113,7 +127,6 @@ def update_plot(keywords=[], exclude_keywords=[], logic='AND', width='100%', hei
                                      marker=dict(size=15, color=palette['keyword_match'], opacity=0.8, line=dict(width=0.5, color='black')),
                                      text=f"<b style='color:black;'>{i}</b>",  # Bold and black color for numbers, starting from 1
                                      hoverinfo='text', name=wrap_text(f"{', '.join(keywords)}") if showlegend else None, showlegend=showlegend))
-
 
     # Add vertical and horizontal dashed lines based on user inputs
     fig.update_layout(
