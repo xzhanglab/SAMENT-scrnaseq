@@ -72,10 +72,6 @@ def get_category(row, neg_cutoff, pos_cutoff, significance_cutoff, keywords=[], 
     else:
         return 'non-significant'
 
-# Function to wrap long text in legend
-def wrap_text(text, width=30):
-    return '<br>'.join(textwrap.wrap(text, width=width))
-
 # Function to update the plot
 def update_plot(keywords=[], exclude_keywords=[], logic='AND', width='100%', height=800, interactive=True):
     df['category'] = df.apply(get_category, axis=1, keywords=keywords, exclude_keywords=exclude_keywords, logic=logic)
@@ -90,23 +86,10 @@ def update_plot(keywords=[], exclude_keywords=[], logic='AND', width='100%', hei
     
     # Plot up-regulated pathways
     upregulated_df = df[df['category'] == 'upregulated']
-    fig.add_trace(go.Scatter(
-        x=upregulated_df['GSVA_score'],
-        y=upregulated_df['-log10(adj.P.Val)'],
-        mode='markers',
-        marker=dict(
-            size=8,
-            color=palette['upregulated'],
-            opacity=0.8,
-            line=dict(width=0.5, color='black')
-        ),
-        text= [f"<span style='color:{palette['upregulated']};'>{name}</span>" for name in upregulated_df.index],
-        hoverinfo='text',
-        name='Up-regulated'
-    ))
+    fig.add_trace(go.Scatter(x=upregulated_df['GSVA_score'], y=upregulated_df['-log10(adj.P.Val)'], mode='markers',
+                             marker=dict(size=8, color=palette['upregulated'], opacity=0.8, line=dict(width=0.5, color='black')),
+                             text=[f'<span style="color:{palette["upregulated"]};">{name}</span>' for name in upregulated_df.index], hoverinfo='text', name='Up-regulated'))
 
-
-  
     # Plot down-regulated pathways
     downregulated_df = df[df['category'] == 'downregulated']
     fig.add_trace(go.Scatter(x=downregulated_df['GSVA_score'], y=downregulated_df['-log10(adj.P.Val)'], mode='markers',
