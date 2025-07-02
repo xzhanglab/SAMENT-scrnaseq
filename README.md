@@ -14,7 +14,7 @@ Xu, Z., Liu, F., Ding, Y., Hao, X., Pan, T., Miles, G., Wu, Y.-H., Liu, J., Bado
 ### <span style="font-size: 14px;">Interactive Volcanoplot: exploying differentially regulated pathways between biotin positive and negative populations</span>
 #### it may take a while to load the app, please be patient
 <span style="font-size: 12px;">
-SAMENT Macrophage:[ https://samentexplore-jxgg9fba6fuyn38wpxvwc7.streamlit.app](https://samentexplore-73cfuwnsd8tzxatzwvcwvv.streamlit.app)
+SAMENT Macrophage: https://samentexplore-73cfuwnsd8tzxatzwvcwvv.streamlit.app
 <br>
 
 <span style="font-size: 12px;">
