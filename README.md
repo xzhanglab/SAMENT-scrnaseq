@@ -58,18 +58,6 @@ These instructions will guide you through the following:
 
 ---
 
-### <span style="font-size: 14px;">Data file (from Zenodo)</span>
-
-| Directory/File                      | Description                                                                 |
-|-------------------------------------|-----------------------------------------------------------------------------|
-| <span style="font-size: 12px;">analysis_scripts.zip</span>     | <span style="font-size: 12px;">Zenodo deposit of the analysis script, same files in GitHub</span>             |
-| <span style="font-size: 12px;">SAMENT_single_cell_integrated_objects.zip</span>         | <span style="font-size: 12px;">Integrated single cell objects from SAMENT scRNA-seq, including both Seurat and Scanpy formats</span>                    |
-| <span style="font-size: 12px;">SAMENT_single_cell_per-sample-Seurat_objects.zip</span>                              | <span style="font-size: 12px;">Individual per-sample Seurat objects from SAMENT scRNA-seq</span> |
-| <span style="font-size: 12px;">Macrophage_LysM_Esr1_KO_single_cell_integrated_objects.zip</span>           | <span style="font-size: 12px;">Integrated single cell objects from scRNA-seq for in vivo macrophage-specific Esr1 knock down, including both Seurat and Scanpy formats</span> |
-| <span style="font-size: 12px;">Macrophage_LysM_Esr1_KO_single_cell_per-sample-Seurat_objects.zip</span>                         | <span style="font-size: 12px;">Individual per-sample Seurat objects from scRNA-seq, for macrophage-specific Esr1 knock out mice</span>              |
-| <span style="font-size: 12px;">Macrophage_LysM_Esr1_KO_CellChat_objects.zip</span>     | <span style="font-size: 12px;">Cell-Cell conmunication objects</span> |
-
----
 
 ### <span style="font-size: 14px;">Data files (from Zenodo)</span>
 
