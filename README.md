@@ -1,3 +1,9 @@
+<!-- Top banner image (full width) -->
+<p align="center">
+  <img src="GitHub.png" alt="Project banner" style="width:100%; max-width:100%; height:auto;" />
+</p>
+
+
 # <span style="font-size: 16px;">Unbiased metastatic niche-labeling identifies estrogen receptor-positive macrophages as a barrier of T cell infiltration during bone colonization</span>
 
 <span style="font-size: 12px;">
