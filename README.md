@@ -64,19 +64,110 @@ These instructions will guide you through the following:
 ---
 ### <span style="font-size: 14px;">Data files (from Zenodo)</span>
 
-| **Directory/File** | **Description** | **Related Figure** |
-|---|---|---|
-| <span style="font-size: 12px;">immunofluourscance-image-spatial-analysis_ERE_or_ERa-positive-macrophages_distribution.zip</span> | <span style="font-size: 12px;">Spatial analysis measures Erα+/ERE+ macrophage distance to its nearest tumor cell.</span> | <span style="font-size: 12px;">Fig S4G–L</span> |
-| <span style="font-size: 12px;">immunofluourscance-image-spatial-analysis_diffusion-lesions_niche-labeling-model-comparisions.zip</span> | <span style="font-size: 12px;">Spatial analysis compares niche-labeling methods in bone metastasis (diffusion lesions).</span> | <span style="font-size: 12px;">Fig 2E, Fig S2B, Fig S2C</span> |
-| <span style="font-size: 12px;">SAMENT_single_cell_per-sample-Seurat_objects.zip</span> | <span style="font-size: 12px;">Individual SAMENT Seurat and Scanpy objects from demultiplexed scRNA-seq (no cell-type annotation).</span> | <span style="font-size: 12px;">/</span> |
-| <span style="font-size: 12px;">immunofluourscance_image_spatial_analysis_demonstration_scripts_and_data.zip</span> | <span style="font-size: 12px;">Demonstration scripts and data for customized spatial analysis.</span> | <span style="font-size: 12px;">/</span> |
-| <span style="font-size: 12px;">SAMENT_single_cell_integrated_objects.zip</span> | <span style="font-size: 12px;">Integrated SAMENT Seurat and Scanpy objects (batch-corrected, cell-type annotated).</span> | <span style="font-size: 12px;">All SAMENT scRNA-seq related panels</span> |
-| <span style="font-size: 12px;">immunofluourscance-image-spatial-analysis_isolate-lesions_niche-labeling-model-comparisions.zip</span> | <span style="font-size: 12px;">Spatial analysis compares niche-labeling methods in bone metastasis (isolated lesions).</span> | <span style="font-size: 12px;">Fig 2D, Fig S2A</span> |
-| <span style="font-size: 12px;">cellranger_demultiplexed_scRNA-seq_matrix.zip</span> | <span style="font-size: 12px;">scRNA-seq Cell Ranger outputs.</span> | <span style="font-size: 12px;">/</span> |
-| <span style="font-size: 12px;">Macrophage_LysM_Esr1_KO_single_cell_integrated_objects.zip</span> | <span style="font-size: 12px;">Integrated LysM-Esr1 Seurat and Scanpy objects (batch-corrected, cell-type annotated).</span> | <span style="font-size: 12px;">All LysM-Esr1 scRNA-seq related panels</span> |
-| <span style="font-size: 12px;">Macrophage_LysM_Esr1_KO_single_cell_per-sample-Seurat_objects.zip</span> | <span style="font-size: 12px;">Individual LysM-Esr1 Seurat and Scanpy objects from demultiplexed scRNA-seq (no cell-type annotation).</span> | <span style="font-size: 12px;">/</span> |
-| <span style="font-size: 12px;">immunofluourscance-image-spatial-analysis_T_cell_distribution_in_ctrl-Esr1KO.zip</span> | <span style="font-size: 12px;">Spatial analysis measures T cell distribution in the TME.</span> | <span style="font-size: 12px;">Fig 7</span> |
-| <span style="font-size: 12px;">scRNA-seq_analysis_scripts.zip</span> | <span style="font-size: 12px;">All scRNA-seq analysis scripts.</span> | <span style="font-size: 12px;">/</span> |
+<style>
+/* Responsive table for GitHub README */
+.zenodo-table {
+  width: 100%;
+  table-layout: fixed;          /* key: respect column widths */
+  border-collapse: collapse;
+}
+
+.zenodo-table th,
+.zenodo-table td {
+  padding: 6px 10px;
+  vertical-align: top;
+  font-size: 12px;
+}
+
+/* column widths (adjust as you like) */
+.zenodo-table col:nth-child(1) { width: 30%; }
+.zenodo-table col:nth-child(2) { width: 55%; }
+.zenodo-table col:nth-child(3) { width: 15%; }
+
+/* wrap long filenames nicely */
+.zenodo-table td:first-child,
+.zenodo-table th:first-child {
+  overflow-wrap: anywhere;      /* break long tokens */
+  word-break: break-word;
+}
+
+/* optional: keep Related Figure from wrapping too much */
+.zenodo-table td:last-child,
+.zenodo-table th:last-child {
+  white-space: nowrap;
+}
+</style>
+
+<table class="zenodo-table">
+  <colgroup>
+    <col><col><col>
+  </colgroup>
+  <thead>
+    <tr>
+      <th><b>Directory/File</b></th>
+      <th><b>Description</b></th>
+      <th><b>Related Figure</b></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>immunofluourscance-image-spatial-analysis_ERE_or_ERa-positive-macrophages_distribution.zip</td>
+      <td>Spatial analysis measures Erα+/ERE+ macrophage distance to its nearest tumor cell.</td>
+      <td>Fig S4G–L</td>
+    </tr>
+    <tr>
+      <td>immunofluourscance-image-spatial-analysis_diffusion-lesions_niche-labeling-model-comparisions.zip</td>
+      <td>Spatial analysis compares niche-labeling methods in bone metastasis (diffusion lesions).</td>
+      <td>Fig 2E, Fig S2B, Fig S2C</td>
+    </tr>
+    <tr>
+      <td>SAMENT_single_cell_per-sample-Seurat_objects.zip</td>
+      <td>Individual SAMENT Seurat and Scanpy objects from demultiplexed scRNA-seq (no cell-type annotation).</td>
+      <td>/</td>
+    </tr>
+    <tr>
+      <td>immunofluourscance_image_spatial_analysis_demonstration_scripts_and_data.zip</td>
+      <td>Demonstration scripts and data for customized spatial analysis.</td>
+      <td>/</td>
+    </tr>
+    <tr>
+      <td>SAMENT_single_cell_integrated_objects.zip</td>
+      <td>Integrated SAMENT Seurat and Scanpy objects (batch-corrected, cell-type annotated).</td>
+      <td>All SAMENT scRNA-seq related panels</td>
+    </tr>
+    <tr>
+      <td>immunofluourscance-image-spatial-analysis_isolate-lesions_niche-labeling-model-comparisions.zip</td>
+      <td>Spatial analysis compares niche-labeling methods in bone metastasis (isolated lesions).</td>
+      <td>Fig 2D, Fig S2A</td>
+    </tr>
+    <tr>
+      <td>cellranger_demultiplexed_scRNA-seq_matrix.zip</td>
+      <td>scRNA-seq Cell Ranger outputs.</td>
+      <td>/</td>
+    </tr>
+    <tr>
+      <td>Macrophage_LysM_Esr1_KO_single_cell_integrated_objects.zip</td>
+      <td>Integrated LysM-Esr1 Seurat and Scanpy objects (batch-corrected, cell-type annotated).</td>
+      <td>All LysM-Esr1 scRNA-seq related panels</td>
+    </tr>
+    <tr>
+      <td>Macrophage_LysM_Esr1_KO_single_cell_per-sample-Seurat_objects.zip</td>
+      <td>Individual LysM-Esr1 Seurat and Scanpy objects from demultiplexed scRNA-seq (no cell-type annotation).</td>
+      <td>/</td>
+    </tr>
+    <tr>
+      <td>immunofluourscance-image-spatial-analysis_T_cell_distribution_in_ctrl-Esr1KO.zip</td>
+      <td>Spatial analysis measures T cell distribution in the TME.</td>
+      <td>Fig 7</td>
+    </tr>
+    <tr>
+      <td>scRNA-seq_analysis_scripts.zip</td>
+      <td>All scRNA-seq analysis scripts.</td>
+      <td>/</td>
+    </tr>
+  </tbody>
+</table>
+
 
 ---
 
