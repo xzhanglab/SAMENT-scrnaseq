@@ -64,40 +64,6 @@ These instructions will guide you through the following:
 ---
 ### <span style="font-size: 14px;">Data files (from Zenodo)</span>
 
-<style>
-/* Responsive table for GitHub README */
-.zenodo-table {
-  width: 100%;
-  table-layout: fixed;          /* key: respect column widths */
-  border-collapse: collapse;
-}
-
-.zenodo-table th,
-.zenodo-table td {
-  padding: 6px 10px;
-  vertical-align: top;
-  font-size: 12px;
-}
-
-/* column widths (adjust as you like) */
-.zenodo-table col:nth-child(1) { width: 30%; }
-.zenodo-table col:nth-child(2) { width: 55%; }
-.zenodo-table col:nth-child(3) { width: 15%; }
-
-/* wrap long filenames nicely */
-.zenodo-table td:first-child,
-.zenodo-table th:first-child {
-  overflow-wrap: anywhere;      /* break long tokens */
-  word-break: break-word;
-}
-
-/* optional: keep Related Figure from wrapping too much */
-.zenodo-table td:last-child,
-.zenodo-table th:last-child {
-  white-space: nowrap;
-}
-</style>
-
 <table class="zenodo-table">
   <colgroup>
     <col><col><col>
