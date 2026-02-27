@@ -1,6 +1,6 @@
 <!-- Top banner image (full width) -->
 <p align="center">
-  <img src="github.png" alt="Project banner" style="width:100%; max-width:100%; height:auto;" />
+  <img src="GitHub.png" alt="Project banner" style="width:100%; max-width:100%; height:auto;" />
 </p>
 
 
