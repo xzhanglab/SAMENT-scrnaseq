@@ -6,8 +6,9 @@
 
 # <span style="font-size: 16px;">Unbiased metastatic niche-labeling identifies estrogen receptor-positive macrophages as a barrier of T cell infiltration during bone colonization</span>
 
-<span style="font-size: 12px;">
-This repository provides instructions and code to reproduce the major results, numerics, and figures from the <a href="https://doi.org/10.1101/2024.05.07.593016"><b>manuscript</b></a>:
+
+<span style="font-size: 12px;">Project website:
+https://xzhanglab.github.io/SAMENT-scrnaseq/
 </span>
 
 ### <span style="font-size: 14px;">Citation</span>
