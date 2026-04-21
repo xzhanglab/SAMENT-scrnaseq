@@ -13,7 +13,7 @@ https://xzhanglab.github.io/SAMENT-scrnaseq/
 
 ### <span style="font-size: 14px;">Citation</span>
 <span style="font-size: 12px;">
-Xu, Z., Liu, F., Ding, Y., Pan, T., Wu, Y.-H., Han, Y., Liu, J., Bado, I. L., Zhang, W., Wu, L., Gao, Y., Gao, Y., Yu, L., Li, X., Edwards, D. G., Chan, H. L., Aguirre, S., Dieffenbach, M. W., Chen, E., Shen, Y., Hoffman, D., Dominguez, L. B., Rivas, C. H., Chen, X., Wang, H., Kang, Y., Gugala, Z., Satcher, R. L., & Zhang, X. H.-F. (2024). Unbiased niche labeling maps immune-excluded niche in bone metastasis. <i>Cell</i> (accepted). https://doi.org/10.1101/2024.05.07.593016
+Xu, Z., Liu, F., Ding, Y., Pan, T., Wu, Y.-H., Han, Y., Liu, J., Bado, I.L., Zhang, W., Wu, L., Gao, Y., Hao, X., Yu, L., Li, Y., Edwards, D.G., Chan, H.L., Aguirre, S., Dieffenbach, M.W., Chen, E., Wang, S., Shen, Y., Hoffman, D., Becerra Dominguez, L., Rivas, C.H., Chen, X., Wang, H., Kang, Y., Gugala, Z., Satcher, R.L., and Zhang, X.H.-F. (2026). Unbiased niche labeling maps immune-excluded niche in bone metastasis. Cell 189, 1–29. https://doi.org/10.1016/j.cell.2026.04.009
 </span>
 
 
