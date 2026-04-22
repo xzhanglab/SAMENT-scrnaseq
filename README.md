@@ -36,7 +36,7 @@ If you want the broader **paper reproduction resource**, including scRNA-seq and
 
 If you use this resource or the companion spatial-analysis workflow, please cite:
 
-Xu Z, Liu F, Ding Y, Pan T, Wu Y-H, Han Y, Liu J, Bado IL, Zhang W, Wu L, Gao Y, Hao X, Yu L, Li Y, Edwards DG, Chan HL, Aguirre S, Dieffenbach MW, Chen E, Wang S, Shen Y, Hoffman D, Becerra Dominguez L, Rivas CH, Chen X, Wang H, Kang Y, Gugala Z, Satcher RL, Zhang XH-F. *Unbiased niche labeling maps immune-excluded niche in bone metastasis.* Cell. 2026. Published online April 2026. doi:10.1016/j.cell.2026.04.009
+Xu Z*, Liu F*, Ding Y, Pan T, Wu Y-H, Han Y, Liu J, Bado IL, Zhang W, Wu L, Gao Y, Hao X, Yu L, Li Y, Edwards DG, Chan HL, Aguirre S, Dieffenbach MW, Chen E, Wang S, Shen Y, Hoffman D, Becerra Dominguez L, Rivas CH, Chen X, Wang H, Kang Y, Gugala Z, Satcher RL, Zhang XH-F. *Unbiased niche labeling maps immune-excluded niche in bone metastasis.* Cell. 2026. Published online April 2026. doi:10.1016/j.cell.2026.04.009
 
 ## Interactive resources
 
