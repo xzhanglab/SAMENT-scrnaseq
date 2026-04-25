@@ -10,8 +10,7 @@ This repository is the manuscript companion resource for the study above. It col
 
 The image-based spatial analysis used for this study has now been organized as a separate companion application:
 
-- **Companion app:** [TME Spatial](https://github.com/fengshuoliu/TME_spatial)
-- **Companion website:** [https://fengshuoliu.github.io/TME_spatial/](https://fengshuoliu.github.io/TME_spatial/)
+- **Companion app:** [TME Spatial](https://fengshuoliu.github.io/TME_spatial)
 
 ### How the two repositories connect
 
